@@ -1,5 +1,12 @@
-extern crate clap;
 use clap::{Arg, App};
+use std::collections::HashMap;
+use std::time::{SystemTime, Instant};
+use crypto::mac::Mac;
+use crypto::hmac::Hmac;
+use crypto::sha1::Sha1;
+use std::collections::hash_map::RandomState;
+
+static DATA_PATTERN: &str = "%a, %d %b %Y %H:%M:%S GMT";
 
 fn main() {
     let matches = App::new("cas-rust")
@@ -18,5 +25,24 @@ fn main() {
         let key = matches.value_of("key").unwrap();
         let user = matches.value_of("user").unwrap();
         println!("api-user:{}, api-key:{}", user,key);
+        let map = encrypt(user, key);
+        for (k,v) in map {
+            println!("{}:{}",k,v);
+        }
     }
+}
+
+fn encrypt(user: &str, key: &str) -> HashMap<String, String, RandomState> {
+    let now = chrono::prelude::Utc::now().format(DATA_PATTERN).to_string();
+    let mut headers = HashMap::new();
+    headers.insert(String::from("Date"),now.clone());
+    let mut hmac1 = Hmac::new(Sha1::new(), key.as_bytes());
+    hmac1.input(now.as_bytes());
+    let encrypt = base64::encode(hmac1.result().code());
+    let mut authorizationStr = String::from(user);
+    authorizationStr.push_str(":");
+    authorizationStr.push_str(encrypt.as_str());
+    authorizationStr = base64::encode(authorizationStr.as_bytes());
+    headers.insert(String::from("Authorization"),"Basic: ".to_owned() + &authorizationStr);
+    return headers;
 }
