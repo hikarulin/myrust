@@ -35,14 +35,16 @@ fn main() {
 fn encrypt(user: &str, key: &str) -> HashMap<String, String, RandomState> {
     let now = chrono::prelude::Utc::now().format(DATA_PATTERN).to_string();
     let mut headers = HashMap::new();
-    headers.insert(String::from("Date"),now.clone());
-    let mut hmac1 = Hmac::new(Sha1::new(), key.as_bytes());
-    hmac1.input(now.as_bytes());
-    let encrypt = base64::encode(hmac1.result().code());
-    let mut authorizationStr = String::from(user);
-    authorizationStr.push_str(":");
-    authorizationStr.push_str(encrypt.as_str());
+    let encrypt = hmacSha1(key.as_bytes(),now.as_bytes());
+    let mut authorizationStr = String::from(user) + ":" + encrypt.as_str();
     authorizationStr = base64::encode(authorizationStr.as_bytes());
+    headers.insert(String::from("Date"),now);
     headers.insert(String::from("Authorization"),"Basic: ".to_owned() + &authorizationStr);
     return headers;
+}
+
+fn hmacSha1(key: &[u8],value: &[u8]) -> String {
+    let mut hmac1 = Hmac::new(Sha1::new(), key);
+    hmac1.input(value);
+    base64::encode(hmac1.result().code())
 }
