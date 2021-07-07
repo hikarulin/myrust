@@ -38,9 +38,11 @@ fn encrypt(user: &str, key: &str) -> HashMap<String, String, RandomState> {
     let mut authorization_str = String::from(user) + ":" + encrypt.as_str();
     authorization_str = base64::encode(authorization_str.as_bytes());
 
-    let mut headers = HashMap::new();
-    headers.insert(String::from("Date"),now);
-    headers.insert(String::from("Authorization"),"Basic: ".to_owned() + &authorization_str);
+    let tuples = vec![(String::from("Date"),now),(String::from("Authorization"),"Basic: ".to_owned() + &authorization_str)];
+    let headers = tuples.into_iter().collect();
+    // let mut headers = HashMap::new();
+    // headers.insert(String::from("Date"),now);
+    // headers.insert(String::from("Authorization"),"Basic: ".to_owned() + &authorization_str);
     return headers;
 }
 
