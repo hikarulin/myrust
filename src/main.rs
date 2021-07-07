@@ -1,4 +1,3 @@
-use std::collections::hash_map::RandomState;
 use std::collections::HashMap;
 
 use clap::{App, Arg};
@@ -32,13 +31,13 @@ fn main() {
     }
 }
 
-fn encrypt(user: &str, key: &str) -> HashMap<String, String, RandomState> {
+fn encrypt(user: &str, key: &str) -> HashMap<String, String> {
     let now = chrono::prelude::Utc::now().format(DATA_PATTERN).to_string();
     let encrypt = hmac_sha1(key.as_bytes(),now.as_bytes());
     let mut authorization_str = String::from(user) + ":" + encrypt.as_str();
     authorization_str = base64::encode(authorization_str.as_bytes());
 
-    let tuples = vec![(String::from("Date"),now),(String::from("Authorization"),"Basic: ".to_owned() + &authorization_str)];
+    let tuples = vec![(String::from("Date"),now),(String::from("Authorization"),"Basic ".to_owned() + &authorization_str)];
     let headers = tuples.into_iter().collect();
     // let mut headers = HashMap::new();
     // headers.insert(String::from("Date"),now);
