@@ -11,9 +11,12 @@ fn main() {
         ])
         .get_matches();
 
-    let key = matches.value_of("key");
-    match key {
-        None => println!("not found arg: key"),
-        Some(s) => println!("args key={}",s)
+    println!("get matches successfully");
+    if let Some(f) = matches.value_of("file") {
+        println!("file: {}",f)
+    }else {
+        let key = matches.value_of("key").unwrap();
+        let user = matches.value_of("user").unwrap();
+        println!("api-user:{}, api-key:{}", user,key);
     }
 }
