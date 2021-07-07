@@ -17,14 +17,13 @@ fn main() {
         ])
         .get_matches();
 
-    println!("get matches successfully");
     if let Some(f) = matches.value_of("file") {
         println!("file: {}",f)
     }else {
         let key = matches.value_of("key").unwrap();
         let user = matches.value_of("user").unwrap();
-        println!("api-user:{}, api-key:{}", user,key);
         let map = encrypt(user, key);
+        println!("api-user:{}, api-key:{}", user,key);
         for (k,v) in map {
             println!("{}:{}",k,v);
         }
