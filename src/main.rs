@@ -49,3 +49,22 @@ fn hmac_sha1(key: &[u8],value: &[u8]) -> String {
     hmac1.input(value);
     base64::encode(hmac1.result().code())
 }
+
+fn largest<T: PartialOrd>(list: &[T]) -> &T {
+    // let mut number_list = vec![34, 50, 25, 100, 65];
+    // let result = largest(&number_list);
+    // println!("{:?} The largest number is {}", number_list, result);
+    // let char_list = vec!['y', 'm', 'a', 'q'];
+    // let result = largest(&char_list);
+    // println!("The largest char is {}", result);
+    // return;
+    let mut largest = &list[0];
+
+    for item in list {
+        if item > largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
