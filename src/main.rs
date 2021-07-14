@@ -1,8 +1,10 @@
 use clap::{App, Arg};
+use myrust::*;
 
 mod common;
 
 fn main() {
+    lib_print();
     let matches = App::new("cas-rust")
         .version("0.1")
         .args(&[
