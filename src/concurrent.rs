@@ -1,6 +1,7 @@
 use std::thread;
-use std::sync::mpsc;
+use std::sync::{mpsc, Mutex, Arc};
 use std::time::{Duration, Instant};
+use std::rc::Rc;
 
 pub fn multi_thread() {
     let handler1 = thread::spawn(move ||{
@@ -85,4 +86,25 @@ pub fn multi_thread4() {
     for val in receiver {
         println!("{:?}: main thread received:{}", Instant::now(), val);
     }
+}
+
+pub fn modify_value_multi_thread() {
+    let counter = Arc::new(Mutex::new(0));;
+    let mut handles = vec![];
+
+    for i in 0..10 {
+        let counter = Arc::clone(&counter);
+        let handle = thread::spawn(move || {
+            let mut num = counter.lock().unwrap();
+            println!("thread{} add one", i);
+            *num += 1;
+        });
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("Result: {}", *counter.lock().unwrap());
 }

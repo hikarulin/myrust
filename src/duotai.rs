@@ -35,7 +35,7 @@ pub fn run() {
 }
 
 // dyn 表示动态分发
-// 相比静态分发会有部分性能损失
+// 相比静态分发会有部分性能损失,因为静态分发要求编译时有确定的大小，所以这里用Box
 pub fn newAnimal(s: &str) -> Box<dyn Animal> {
     return if s == "lion" {
         Box::new(Lion {})

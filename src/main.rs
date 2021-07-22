@@ -8,5 +8,5 @@ mod duotai;
 
 fn main() {
     lib_print();
-    concurrent::multi_thread4();
+    concurrent::modify_value_multi_thread();
 }
