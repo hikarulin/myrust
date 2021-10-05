@@ -1,3 +1,5 @@
+pub mod math;
+
 use crypto::hmac::Hmac;
 use crypto::sha1::Sha1;
 use std::collections::HashMap;

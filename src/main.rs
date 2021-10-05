@@ -24,5 +24,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .unwrap();
     let resp = httpClient.get("https://ms.quantil.com/api/v2").send().await?.text().await?;
     println!("resp:{}",resp);
+    let sum = common::math::add(1,2);
+    // let sum = common::math::internal_add(1,2); //compile error
     Ok(())
 }
