@@ -9,8 +9,6 @@ use reqwest::Proxy;
 
 mod common;
 mod args;
-mod concurrent;
-mod duotai;
 mod http;
 
 #[tokio::main]

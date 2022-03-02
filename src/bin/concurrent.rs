@@ -3,6 +3,10 @@ use std::sync::{mpsc, Mutex, Arc};
 use std::time::{Duration, Instant};
 use std::rc::Rc;
 
+fn main() {
+    multi_thread()
+}
+
 pub fn multi_thread() {
     let handler1 = thread::spawn(move ||{
         thread::sleep(Duration::from_secs(1));

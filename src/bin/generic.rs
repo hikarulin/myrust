@@ -1,4 +1,9 @@
 
+fn main() {
+    let mut list = vec![34, 50, 25, 100, 65];
+    println!("{}",largest(&list));
+    println!("{}",largest2(&list));
+}
 
 fn largest<T: PartialOrd>(list: &[T]) -> &T {
     // let mut number_list = vec![34, 50, 25, 100, 65];

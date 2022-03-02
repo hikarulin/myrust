@@ -27,7 +27,7 @@ impl Animal for Tiger{
 //     }
 // }
 
-pub fn run() {
+fn main() {
     let lion = newAnimal("lion");
     lion.eat();
     let tiger = newAnimal("tiger");

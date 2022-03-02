@@ -1,5 +1,5 @@
 
-pub fn iterator_demonstration() {
+pub fn main() {
     let mut v1 = vec![1, 2, 3];
     let mut iter1 = v1.iter();
     assert_eq!(iter1.next(), Some(&1));
